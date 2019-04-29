@@ -4,8 +4,8 @@
 use contract::{CodeHash, Schedule};
 use runtime_primitives::traits::StaticLookup;
 use srml_support::traits::Currency;
-use srml_support::{decl_module, dispatch::Result};
-use system::ensure_root;
+use srml_support::{decl_module, dispatch::Result, ensure};
+use system::ensure_signed;
 
 pub type BalanceOf<T> =
     <<T as contract::Trait>::Currency as Currency<<T as system::Trait>::AccountId>>::Balance;
@@ -29,7 +29,8 @@ decl_module! {
             #[compact] gas_limit: T::Gas,
             code: Vec<u8>
         ) -> Result {
-            ensure_root(origin)?;
+            let sender = ensure_signed(origin)?;
+            ensure!(sender == <sudo::Module<T>>::key(), "Sender must be the Sudo key to put_code");
             <contract::Module<T>>::put_code(origin, gas_limit, code)
         }
 
