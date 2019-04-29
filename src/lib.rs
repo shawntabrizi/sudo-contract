@@ -55,9 +55,5 @@ decl_module! {
         ) -> Result {
             <contract::Module<T>>::create(origin, endowment, gas_limit, code_hash, data)
         }
-
-        fn on_finalize(n: T::BlockNumber) {
-            <contract::Module<T>>::on_finalize(n)
-        }
     }
 }
