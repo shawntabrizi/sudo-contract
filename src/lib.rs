@@ -31,7 +31,8 @@ decl_module! {
         ) -> Result {
             let sender = ensure_signed(origin)?;
             ensure!(sender == <sudo::Module<T>>::key(), "Sender must be the Sudo key to put_code");
-            <contract::Module<T>>::put_code(origin, gas_limit, code)
+            let new_origin = system::RawOrigin::Signed(sender).into();
+            <contract::Module<T>>::put_code(new_origin, gas_limit, code)
         }
 
         /// Simply forwards to the `call` function in the Contract module.
