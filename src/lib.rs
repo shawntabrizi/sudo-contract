@@ -23,7 +23,7 @@ decl_module! {
             <contract::Module<T>>::update_schedule(schedule)
         }
 
-        /// Checks for `Root` origin before forwarding to `put_code` in the Contract module.
+        /// Checks that sender is the Sudo `key` before forwarding to `put_code` in the Contract module.
         fn put_code(
             origin,
             #[compact] gas_limit: T::Gas,
