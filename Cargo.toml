@@ -18,13 +18,16 @@ sudo = { package = "srml-sudo", git = "https://github.com/paritytech/substrate.g
 
 [features]
 default = ["std"]
+core = [
+	"contract/core",
+]
 std = [
 	"parity-codec/std",
 	"substrate-primitives/std",
 	"runtime-primitives/std",
 	"runtime-io/std",
 	"srml-support/std",
-    "contract/std",
+	"contract/std",
 	"sudo/std",
 	"system/std",
 	"timestamp/std",
