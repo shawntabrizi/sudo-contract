@@ -6,6 +6,7 @@ use runtime_primitives::traits::StaticLookup;
 use srml_support::traits::Currency;
 use srml_support::{decl_module, dispatch::Result, ensure};
 use system::ensure_signed;
+use rstd::prelude::*;
 
 pub type BalanceOf<T> =
     <<T as contract::Trait>::Currency as Currency<<T as system::Trait>::AccountId>>::Balance;
