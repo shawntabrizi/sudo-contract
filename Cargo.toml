@@ -6,30 +6,27 @@ edition = "2018"
 
 [dependencies]
 parity-codec = { version = "^3.3", default-features = false, features = ["derive"] }
-substrate-primitives = { git = "https://github.com/paritytech/substrate.git", default-features = false }
-runtime-primitives = { package = "sr-primitives", git = "https://github.com/paritytech/substrate.git", default-features = false }
-runtime-io = { package = "sr-io", git = "https://github.com/paritytech/substrate.git", default-features = false }
-srml-support = { git = "https://github.com/paritytech/substrate.git", default-features = false }
-system = { package = "srml-system", git = "https://github.com/paritytech/substrate.git", default-features = false }
-timestamp = { package = "srml-timestamp", git = "https://github.com/paritytech/substrate.git", default-features = false }
-contract = { package = "srml-contract", git = "https://github.com/paritytech/substrate.git", default-features = false}
-sudo = { package = "srml-sudo", git = "https://github.com/paritytech/substrate.git", default-features = false }
-rstd = { package = "sr-std", git = "https://github.com/paritytech/substrate.git", default-features = false }
+substrate-primitives = { git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+runtime-primitives = { package = "sr-primitives", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+runtime-io = { package = "sr-io", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+srml-support = { git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+system = { package = "srml-system", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+timestamp = { package = "srml-timestamp", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+contract = { package = "srml-contract", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false}
+sudo = { package = "srml-sudo", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
+rstd = { package = "sr-std", git = "https://github.com/paritytech/substrate.git", branch = "v1.0", default-features = false }
 
 [features]
 default = ["std"]
-core = [
-	"contract/core",
-]
 std = [
 	"parity-codec/std",
 	"substrate-primitives/std",
 	"runtime-primitives/std",
 	"runtime-io/std",
-	"rstd/std",
 	"srml-support/std",
-	"contract/std",
-	"sudo/std",
 	"system/std",
 	"timestamp/std",
+	"contract/std",
+	"sudo/std",
+	"rstd/std",
 ]
