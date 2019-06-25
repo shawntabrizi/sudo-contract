@@ -3,8 +3,8 @@
 
 use contract::{CodeHash, Schedule};
 use runtime_primitives::traits::StaticLookup;
-use srml_support::traits::Currency;
-use srml_support::{decl_module, dispatch::Result, ensure};
+use support::traits::Currency;
+use support::{decl_module, dispatch::Result, ensure};
 use system::ensure_signed;
 use rstd::prelude::*;
 
