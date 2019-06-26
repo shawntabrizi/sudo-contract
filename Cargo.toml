@@ -6,6 +6,9 @@ edition = "2018"
 
 [features]
 default = ['std']
+core = [
+    'contract/core'
+]
 std = [
     'parity-codec/std',
     'support/std',
@@ -25,46 +28,46 @@ version = '3.5'
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'srml-support'
-branch = 'v1.0'
+branch = 'master'
 
 [dependencies.system]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'srml-system'
-branch = 'v1.0'
+branch = 'master'
 
 [dependencies.sudo]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'srml-sudo'
-branch = 'v1.0'
+branch = 'master'
 
 [dependencies.contract]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
-package = 'srml-contract'
-branch = 'v1.0'
+package = 'srml-contracts'
+branch = 'master'
 
 [dependencies.runtime-primitives]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'sr-primitives'
-branch = 'v1.0'
+branch = 'master'
 
 [dependencies.rstd]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'sr-std'
-branch = 'v1.0'
+branch = 'master'
 
 [dev-dependencies.primitives]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'substrate-primitives'
-branch = 'v1.0'
+branch = 'master'
 
 [dev-dependencies.runtime-io]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
 package = 'sr-io'
-branch = 'v1.0'
+branch = 'master'

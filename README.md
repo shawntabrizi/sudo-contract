@@ -41,27 +41,27 @@ To add this module to your runtime you will need to modify how the SRML Contract
 Your runtime's `Cargo.toml` file should look something like:
 
 ```rust
-[dependencies.srml-contract]
+[dependencies.srml-contracts]
 default_features = false
 git = 'https://github.com/paritytech/substrate.git'
-package = 'srml-contract'
-branch = 'v1.0'
+package = 'srml-contracts'
+branch = 'master'
 
 [dependencies.contract]
 default_features = false
 git = 'https://github.com/shawntabrizi/sudo-contract.git'
 package = 'sudo-contract'
-branch = 'v1.0'
+branch = 'master'
 ```
 
-Note how we imported the `srml-contract` module using the name `srml-contract`. This then allows us to import `sudo-contract` as `contract`, which is important for interacting with the UI.
+Note how we imported the `srml-contracts` module using the name `srml-contracts`. This then allows us to import `sudo-contract` as `contract`, which is important for interacting with the UI.
 
-You also need to update your runtime's `std` feature to include `srml-contract` and `contract`:
+You also need to update your runtime's `std` feature to include `srml-contracts` and `contract`:
 
 ```rust
 std = [
     ...
-    'srml-contract/std',
+    'srml-contracts/std',
     'contract/std',
 ]
 ```
