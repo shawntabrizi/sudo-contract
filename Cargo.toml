@@ -1,5 +1,5 @@
 [package]
-name = "substrate-module-template"
+name = "sudo-contract"
 version = "0.1.0"
 authors = ["Shawn Tabrizi <shawntabrizi@gmail.com>"]
 edition = "2018"

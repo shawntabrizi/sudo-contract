@@ -1,16 +1,19 @@
-# substrate-module-template
+# sudo-contract
 
-This is a template for a Substrate runtime module which lives as its own crate so it can be imported into multiple other runtimes. It is based on the ["template" module](https://github.com/paritytech/substrate/blob/v1.0/node-template/runtime/src/template.rs) which is included with the [Substrate node template](https://github.com/paritytech/substrate/tree/v1.0/node-template).
-
-Check out the [HOWTO](HOWTO.md) to learn how to use this for your own runtime module.
-
-This README should act as a general template for distributing your module to others.
+Sudo Contract is a Substrate runtime module which adds an authorization layer for putting new Wasm smart contracts on the blockchain.
 
 ## Purpose
 
-This module acts as a template for building other runtime modules.
+The Contract module which is included with Substrate allows all users to be able to create and deploy Wasm smart contracts on their custom blockchain.
 
-It currently allows a user to put a `u32` value into storage, which triggers a runtime event.
+Smart contract deployment through the Contract module takes two steps:
+
+1. Putting a Wasm compiled smart contract on the blockchain
+2. Creating an instance of the Wasm smart contract with it's own Contract account and storage
+
+This runtime module adds an authorization layer to the Contract module such that the first step of putting the Wasm contract on the blockchain can only be performed by the "Sudo" key, which is defined by the Sudo module.
+
+With this module, it would be possible to curate the smart contracts which get added to your blockchain, hopefully reducing the danger of users on your platform.
 
 ## Dependencies
 
@@ -20,18 +23,27 @@ This module does not depend on any externally defined traits.
 
 ### Modules
 
-This module does not depend on any other SRML or externally developed modules.
+This module has direct dependencies on:
+
+* SRML Sudo Module
+* SRML Contract Module
+
+Both must be included in your runtime for this module to function. Instructions for this below.
 
 ## Installation
 
 ### Runtime `Cargo.toml`
 
-To add this module to your runtime, simply include the following to your runtime's `Cargo.toml` file:
+To add this module to your runtime you will need to modify how the SRML Contract module is added too.
+
+Your runtime's `Cargo.toml` file should look something like:
 
 ```rust
-[dependencies.substrate-module-template]
+[dependencies.contract]
 default_features = false
-git = 'https://github.com/shawntabrizi/substrate-module-template.git'
+git = 'https://github.com/shawntabrizi/sudo-contract.git'
+package = 'sudo-contract'
+branch = 'v1.0'
 ```
 
 and update your runtime's `std` feature to include this module:
@@ -39,7 +51,7 @@ and update your runtime's `std` feature to include this module:
 ```rust
 std = [
     ...
-    'example_module/std',
+    'sudo_contract/std',
 ]
 ```
 
@@ -49,15 +61,13 @@ You should implement it's trait like so:
 
 ```rust
 /// Used for the module test_module
-impl substrate_module_template::Trait for Runtime {
-	type Event = Event;
-}
+impl sudo_contract::Trait for Runtime {}
 ```
 
 and include it in your `construct_runtime!` macro:
 
 ```rust
-ExampleModule: substrate_module_template::{Module, Call, Storage, Event<T>},
+SudoContract: substrate_module_template::{Module, Call, Storage, Event<T>},
 ```
 
 ## Reference Docs
