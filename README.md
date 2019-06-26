@@ -32,6 +32,8 @@ Both must be included in your runtime for this module to function. Instructions 
 
 ## Installation
 
+You can find an example of adding the Sudo Contract module to a runtime [here](https://github.com/shawntabrizi/substrate-package/commit/c0c1e4604db279c5940f528c378575fa2c5aaf7a).
+
 ### Runtime `Cargo.toml`
 
 To add this module to your runtime you will need to modify how the SRML Contract module is added too.
@@ -39,6 +41,12 @@ To add this module to your runtime you will need to modify how the SRML Contract
 Your runtime's `Cargo.toml` file should look something like:
 
 ```rust
+[dependencies.srml-contract]
+default_features = false
+git = 'https://github.com/paritytech/substrate.git'
+package = 'srml-contract'
+branch = 'v1.0'
+
 [dependencies.contract]
 default_features = false
 git = 'https://github.com/shawntabrizi/sudo-contract.git'
@@ -46,28 +54,56 @@ package = 'sudo-contract'
 branch = 'v1.0'
 ```
 
-and update your runtime's `std` feature to include this module:
+Note how we imported the `srml-contract` module using the name `srml-contract`. This then allows us to import `sudo-contract` as `contract`, which is important for interacting with the UI.
+
+You also need to update your runtime's `std` feature to include `srml-contract` and `contract`:
 
 ```rust
 std = [
     ...
-    'sudo_contract/std',
+    'srml-contract/std',
+    'contract/std',
 ]
 ```
 
 ### Runtime `lib.rs`
 
-You should implement it's trait like so:
+You should implement this module's trait like so:
 
 ```rust
-/// Used for the module test_module
-impl sudo_contract::Trait for Runtime {}
+impl contract::Trait for Runtime {}
 ```
 
-and include it in your `construct_runtime!` macro:
+While updating the SRML Contract module's trait to use `srml_contract`:
 
 ```rust
-SudoContract: substrate_module_template::{Module, Call, Storage, Event<T>},
+impl srml_contract::Trait for Runtime {
+	type Currency = Balances;
+	type Call = Call;
+	type Event = Event;
+	type Gas = u64;
+	type DetermineContractAddress = srml_contract::SimpleAddressDeterminator<Runtime>;
+	type ComputeDispatchFee = srml_contract::DefaultDispatchFeeComputor<Runtime>;
+	type TrieIdGenerator = srml_contract::TrieIdFromParentCounter<Runtime>;
+	type GasPayment = ();
+}
+```
+
+Finally, in your `construct_runtime!` macro:
+
+```rust
+Contract: srml_contract::{Module, Storage, Config<T>, Event<T>},
+SudoContract: contract::{Module, Call},
+```
+
+Note that we have removed the `Call` function from `srml_contract`. This is important so that users cannot bypass the Sudo Contract module by simply calling the SRML Contract module directly.
+
+### Genesis Configuration
+
+The Sudo Contract module itself does not have any genesis configuration, but you will need to make sure that the genesis configuration for the SRML Contract module is updated to use `srml_contract`:
+
+```rust
+srml_contract: Some(contract_config),
 ```
 
 ## Reference Docs
@@ -77,5 +113,3 @@ You can view the reference docs for this module by running:
 ```
 cargo doc --open
 ```
-
-or by visiting this site: <Add Your Link>
